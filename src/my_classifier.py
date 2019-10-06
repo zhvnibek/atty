@@ -19,8 +19,8 @@ def main(mode : str = 'CLASSIFY',
         use_split_dataset : bool = True,
         batch_size : int = 90,
         image_size : int = 160,
-        min_nrof_images_per_class : int = 10,
-        nrof_train_images_per_class : int = 5,
+        min_nrof_images_per_class : int = 4,
+        nrof_train_images_per_class : int = 3,
         seed: int = 666,
         ):
     with tf.Graph().as_default():
@@ -112,4 +112,5 @@ def split_dataset(dataset, min_nrof_images_per_class, nrof_train_images_per_clas
 
 if __name__ == '__main__':
     # main(parse_arguments(sys.argv[1:]))
+    # main(mode='TRAIN')
     main(mode='CLASSIFY')
