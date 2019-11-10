@@ -11,16 +11,18 @@ import sys
 import math
 import pickle
 from sklearn.svm import SVC
+import warnings
+warnings.filterwarnings("ignore")
 
 def main(mode : str = 'CLASSIFY',
         data_dir : str = '~/datasets/lfw/lfw_mtcnnpy_160',
         model : str = '~/models/facenet/20180402-114759/20180402-114759.pb',
-        classifier_filename : str = '~/models/stud_classifier.pkl',
+        classifier_filename : str = '~/models/stud_classifier_Oct_10.pkl',
         use_split_dataset : bool = True,
         batch_size : int = 90,
         image_size : int = 160,
-        min_nrof_images_per_class : int = 4,
-        nrof_train_images_per_class : int = 3,
+        min_nrof_images_per_class : int = 8,
+        nrof_train_images_per_class : int = 6,
         seed: int = 666,
         ):
     with tf.Graph().as_default():
@@ -111,6 +113,5 @@ def split_dataset(dataset, min_nrof_images_per_class, nrof_train_images_per_clas
 
 
 if __name__ == '__main__':
-    # main(parse_arguments(sys.argv[1:]))
-    # main(mode='TRAIN')
-    main(mode='CLASSIFY')
+    main(mode='TRAIN')
+    # main(mode='CLASSIFY')

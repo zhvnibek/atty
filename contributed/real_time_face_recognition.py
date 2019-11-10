@@ -3,6 +3,8 @@ import sys
 import time
 import cv2
 import face
+import warnings
+warnings.filterwarnings("ignore")
 
 def add_overlays(frame, faces, frame_rate):
     if faces is not None:
@@ -12,6 +14,7 @@ def add_overlays(frame, faces, frame_rate):
                           (face_bb[0], face_bb[1]), (face_bb[2], face_bb[3]),
                           (0, 255, 0), 2)
             if face.name is not None:
+                print(face.name)
                 cv2.putText(frame, face.name, (face_bb[0], face_bb[3]),
                             cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0),
                             thickness=2, lineType=2)
@@ -22,8 +25,10 @@ def add_overlays(frame, faces, frame_rate):
 
 
 def main(args):
-    frame_interval = 3  # Number of frames after which to run face detection
-    fps_display_interval = 5  # seconds
+    # frame_interval = 3  # Number of frames after which to run face detection
+    # fps_display_interval = 5  # seconds
+    frame_interval = 3
+    fps_display_interval = 5
     frame_rate = 0
     frame_count = 0
 
