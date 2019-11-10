@@ -3,6 +3,8 @@ import sys
 import time
 import cv2
 import face
+
+from handle_preds import send_labels
 import warnings
 warnings.filterwarnings("ignore")
 
@@ -14,14 +16,10 @@ def add_overlays(frame, faces, frame_rate):
                           (face_bb[0], face_bb[1]), (face_bb[2], face_bb[3]),
                           (0, 255, 0), 2)
             if face.name is not None:
-                print(face.name)
+                # print(face.name)
                 cv2.putText(frame, face.name, (face_bb[0], face_bb[3]),
                             cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0),
                             thickness=2, lineType=2)
-
-    cv2.putText(frame, str(frame_rate) + " fps", (10, 30),
-                cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0),
-                thickness=2, lineType=2)
 
 
 def main(args):
@@ -29,6 +27,7 @@ def main(args):
     # fps_display_interval = 5  # seconds
     frame_interval = 3
     fps_display_interval = 5
+
     frame_rate = 0
     frame_count = 0
 
@@ -55,6 +54,9 @@ def main(args):
                 frame_count = 0
 
         add_overlays(frame, faces, frame_rate)
+
+        """ Send the face labels to RabbitMQ """
+        send_labels(faces)
 
         frame_count += 1
         cv2.imshow('Video', frame)

@@ -113,5 +113,5 @@ def split_dataset(dataset, min_nrof_images_per_class, nrof_train_images_per_clas
 
 
 if __name__ == '__main__':
-    main(mode='TRAIN')
-    # main(mode='CLASSIFY')
+    # main(mode='TRAIN')
+    main(mode='CLASSIFY')
