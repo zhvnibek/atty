@@ -30,7 +30,7 @@ def queue_with_dlx(ch, q_name):
                                 'x-dead-letter-routing-key': q_name,
                                 'x-queue-mode': 'lazy'})
 
-def send_labels(faces, time_window: int = 300):
+def send_labels(faces, time_window: int = 30):
     if faces is not None:
         for i, face in enumerate(faces):
             label = face.name
