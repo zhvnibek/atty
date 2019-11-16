@@ -1,4 +1,5 @@
 # Attendance Management System using Face Recognition
+#### This project is forked from [davidsandberg/facenet](https://github.com/davidsandberg/facenet)
 
 ### System Architecture
 ![System Architecture](img/atty.png)
@@ -6,7 +7,6 @@
 ### Database Schema
 ![DB Schema](img/db_schema.png)
 
-#### This project is forked from [davidsandberg/facenet](https://github.com/davidsandberg/facenet) 
 
 # Face Recognition using Tensorflow [![Build Status][travis-image]][travis]
 
