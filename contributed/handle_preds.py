@@ -30,7 +30,7 @@ def queue_with_dlx(ch, q_name):
                                 'x-dead-letter-routing-key': q_name,
                                 'x-queue-mode': 'lazy'})
 
-def send_labels(faces, time_window: int = 30):
+def send_labels(faces, course_id: int, time_window: int = 30):
     if faces is not None:
         for i, face in enumerate(faces):
             label = face.name
@@ -51,16 +51,18 @@ def send_labels(faces, time_window: int = 30):
 
                 channel.basic_publish(exchange='', routing_key='face_preds', body=json.dumps({
                     "task": 'prediction',
+                    "course_id": course_id,
                     "face_region": face_bb,
                     "label": label,
                     "index": i
                 }))
                 labels_cache.set(label, 1, ex=time_window)
 
-def send_quit():
+def send_quit(course_id: int):
     logger.info("Sending quit message..")
     channel.basic_publish(exchange='', routing_key='face_preds', body=json.dumps({
-        "task": 'quit'
+        "task": 'quit',
+        "course_id": course_id
     }))
 
 """ Redis """

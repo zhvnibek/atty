@@ -23,8 +23,11 @@ def add_overlays(frame, faces, frame_rate):
 
 
 def main(args):
-    # frame_interval = 3  # Number of frames after which to run face detection
-    # fps_display_interval = 5  # seconds
+    """Course ID"""
+    course_id: int = args.course_id
+    """Camera Options"""
+    frame_interval = 3  # Number of frames after which to run face detection
+    fps_display_interval = 5  # seconds
     frame_interval = 3
     fps_display_interval = 5
 
@@ -57,14 +60,14 @@ def main(args):
         add_overlays(frame, faces, frame_rate)
 
         """ Send the face labels to RabbitMQ """
-        send_labels(faces)
+        send_labels(faces, course_id)
 
         frame_count += 1
         cv2.imshow('Video', frame)
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             """ Send quit message"""
-            send_quit()
+            send_quit(course_id)
             break
 
     # When everything is done, release the capture
@@ -77,6 +80,8 @@ def parse_arguments(argv):
 
     parser.add_argument('--debug', action='store_true',
                         help='Enable some debug outputs.')
+    parser.add_argument('course_id', type=int, help='Course ID.')
+
     return parser.parse_args(argv)
 
 

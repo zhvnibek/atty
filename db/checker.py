@@ -33,6 +33,7 @@ def message_handler(ch, method, properties, body):
     task = msg.get('task')
     if task == 'quit':
         logger.info("Quitting...")
+        course_id: int = msg.get('course_id')
         """ Send the best labels to another queue? """
         best_labels = face_grouping.best_labels()
         logger.info(f"Best labels: {best_labels}")
@@ -40,13 +41,15 @@ def message_handler(ch, method, properties, body):
             "task": 'best_labels',
             "labels": list(best_labels),
             'date': str(datetime.utcnow().date()),
-            "timestamp": str(datetime.utcnow())
+            "timestamp": str(datetime.utcnow()),
+            "course_id": course_id
         }))
         channel.stop_consuming()
     if task == 'prediction':
         index: int = msg.get('index')
         label: str = msg.get('label')
         face_bb: list = msg.get('face_region')
+        course_id: int = msg.get('course_id')
         """ Get id of a student """
         id: int = get_id(session, label)
         if id is not None:

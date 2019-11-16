@@ -5,7 +5,7 @@ from sqlalchemy.orm import sessionmaker, relationship
 
 from conf import POSTGRES_DB, POSTGRES_HOST, POSTGRES_PASSWORD, POSTGRES_PORT, POSTGRES_USER
 from conf import get_logger
-from db_utils import connect, get_id, check_student_at_course_session, Course
+from db_utils import connect, get_id, check_student_at_course_session
 from rmq_utils import get_channel
 
 logger = get_logger('checker')
@@ -33,15 +33,14 @@ def message_handler(ch, method, properties, body):
         labels: list = msg.get('labels')
         ts: str = msg.get('timestamp')
         date: str = msg.get('date')
-        # date = str(datetime.utcnow().date()) # should be extracted from the msg
-        course = Course.DL.value # should be extracted from the msg
+        course_id: int = msg.get('course_id')
         for label in labels:
             if check_student_at_course_session( \
                     session=session, stud_label=label, \
-                    course_name=course, date=date):
-                logger.info(f"{label} has been checked at {course} at {ts}")
+                    course_id=course_id, date=date):
+                logger.info(f"{label} has been checked at {course_id} at {ts}")
             else:
-                logger.info(f"{label} has already been checked at {course}")
+                logger.info(f"{label} has already been checked at {course_id}")
         ch.basic_ack(delivery_tag=method.delivery_tag)
         # else:
             # logger.error("Something went wrong while checking the recognized students!")
