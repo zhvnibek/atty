@@ -1,10 +1,10 @@
 # Attendance Management System using Face Recognition
 
 ### System Architecture
-![System Architecture](db/img/atty.png)
+![System Architecture](img/atty.png)
 
 ### Database Schema
-![DB Schema](db/img/db_schema.png)
+![DB Schema](img/db_schema.png)
 <!-- # Face Recognition using Tensorflow [![Build Status][travis-image]][travis]
 
 [travis-image]: http://travis-ci.org/davidsandberg/facenet.svg?branch=master
