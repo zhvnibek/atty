@@ -57,6 +57,12 @@ def send_labels(faces, time_window: int = 30):
                 }))
                 labels_cache.set(label, 1, ex=time_window)
 
+def send_quit():
+    logger.info("Sending quit message..")
+    channel.basic_publish(exchange='', routing_key='face_preds', body=json.dumps({
+        "task": 'quit'
+    }))
+
 """ Redis """
 labels_cache = redis.Redis(host='localhost', port=6379, db=0)
 
@@ -75,3 +81,4 @@ channel = connection.channel()
 channel.basic_qos(prefetch_count=1)
 
 queue_with_dlx(channel, 'face_preds')
+queue_with_dlx(channel, 'best_labels')

@@ -4,7 +4,7 @@ import time
 import cv2
 import face
 
-from handle_preds import send_labels
+from handle_preds import send_labels, send_quit
 import warnings
 warnings.filterwarnings("ignore")
 
@@ -53,6 +53,7 @@ def main(args):
                 start_time = time.time()
                 frame_count = 0
 
+        """ Draw face boundings """
         add_overlays(frame, faces, frame_rate)
 
         """ Send the face labels to RabbitMQ """
@@ -62,6 +63,8 @@ def main(args):
         cv2.imshow('Video', frame)
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
+            """ Send quit message"""
+            send_quit()
             break
 
     # When everything is done, release the capture

@@ -40,7 +40,7 @@ class FaceGrouping:
     threshold = None
     faces = None
     groups = None
-    def __init__(self, threshold: float):
+    def __init__(self, threshold: float = 0.5):
         self.threshold = threshold
         self.faces = []
         self.groups = []
@@ -87,12 +87,13 @@ class FaceGrouping:
         score = self.compare_face_boxes(bb1, bb2)
         return score > t
 
-    # def add_face(self, face: Face):
-    #     # face_id = face.id
-    #     # face_bb = face.bounding_box
-    #     self.faces.append(face)
+    def add_face(self, face: Face):
+        # face_id = face.id
+        # face_bb = face.bounding_box
+        self.faces.append(face)
 
     def merge_face(self, face: Face):
+        self.add_face(face)
         face_bb = face.bounding_box
         face_label = face.label
         top_score = 0.0
@@ -140,5 +141,5 @@ if __name__ == '__main__':
     face_grouping.merge_face(face3)
     logger.info(face_grouping.groups)
     logger.info(face_grouping.best_labels())
-    # for g in face_grouping.groups:
-    #     logger.info(g.bboxes)
+    for g in face_grouping.groups:
+        logger.info(g.bboxes)
